@@ -31,9 +31,9 @@ public class ProductoController {
         if (q != null && !q.isBlank()) {
             productos = repository.findByNombreContainingIgnoreCaseOrDescripcionContainingIgnoreCase(q, q);
         } else if (animal != null && !animal.isBlank() && categoria != null && !categoria.isBlank()) {
-            productos = repository.findByAnimalIgnoreCaseAndCategoriaIgnoreCase(animal, categoria);
+            productos = repository.findByAnimalContainingIgnoreCaseAndCategoriaIgnoreCase(animal, categoria);
         } else if (animal != null && !animal.isBlank()) {
-            productos = repository.findByAnimalIgnoreCase(animal);
+            productos = repository.findByAnimalContainingIgnoreCase(animal);
         } else if (categoria != null && !categoria.isBlank()) {
             productos = repository.findByCategoriaIgnoreCase(categoria);
         } else if (Boolean.TRUE.equals(disponible)) {
