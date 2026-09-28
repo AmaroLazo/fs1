@@ -1,43 +1,48 @@
-# Sistema de Gestión en Base a Microservicios — Book Point
+# Backend de Huellitas Club — Microservicios
 
-Este repositorio contiene el desarrollo del sistema distribuido de gestión de inventario, biblioteca y ventas para la empresa **Book Point**.La plataforma está diseñada bajo una arquitectura de microservicios, aislando las responsabilidades del negocio en componentes independientes y desacoplados para garantizar una alta disponibilidad, seguridad y escalabilidad.
+Este repositorio contiene el backend en Java/Spring Boot del proyecto PetShop **Huellitas Club**, adaptado para trabajar con el frontend de `fullstack2_petshop`.
 
-##  Arquitectura y Tecnologías
-* **Backend:** Java con Spring Boot.
-* **Gestión de API**: Spring Cloud Gateway (Entry point centralizado).
-* **Persistencia:** JPA / Hibernate para el mapeo de entidades.
-* **Base de Datos:** MySQL (un motor independiente por cada microservicio).
-* **Herramientas de Productividad:** Lombok (reducción de código repetitivo) y Maven (gestor de dependencias). 
-* **Validaciones:** Spring Validation (`@NotNull`, `@NotBlank`, etc.) para asegurar la integridad de las peticiones.
-* **Documentación:** Swagger (OpenAPI) para documentación interactiva de endpoints.
-* **Testing**: JUnit 5 y Mockito para pruebas unitarias y de integración.
+## Arquitectura
 
----
+- Backend: Java + Spring Boot.
+- Persistencia: JPA / Hibernate + MySQL.
+- Microservicio de catálogo: `8082`.
+- Carrito: `8083`.
+- Pedidos: `8081`.
+- Reseñas: `8084`.
+- Favoritos: `8085`.
+- Wishlist: `8086`.
+- Cupones: `8087`.
+- Usuario: `8090`.
+- Boleta: `8091`.
+- Anuncios: `8092`.
 
-##  Mapa de Ecosistema de Microservicios 
+## API compatible con el frontend
 
-* **Catálogo:** Puerto `8082` 
-* **Carrito:** Puerto `8083` 
-* **Pedidos:** Puerto `8081` 
-* **Reseñas:** Puerto `8084` 
-* **Favoritos:** Puerto `8085` 
-* **Cupones:** Puerto `8087` 
-* **Wishlist:** Puerto `8086` 
-* **Usuario:** Puerto `8090` 
-* **Boleta:** Puerto `8091` 
-* **Anuncios:** Puerto `8092` 
+El microservicio de catálogo incorpora el recurso:
 
----
+`GET http://localhost:8082/api/productos`
 
-## ⚙️ Instrucciones de Despliegue Local
+Parámetros opcionales:
 
-Para levantar el ecosistema completo en tu entorno de desarrollo, sigue estos pasos:
+- `q`: búsqueda por nombre o descripción.
+- `animal`: `perros`, `gatos`, `aves`, `roedores`, `peces` o `reptiles`.
+- `categoria`: `alimentos`, `snacks`, `juguetes`, `accesorios`, `higiene` o `camas`.
+- `disponible=true`: devuelve solo productos disponibles.
 
-1. **Base de Datos:** Abre **XAMPP** e inicia el servicio de **MySQL**Asegúrate de tener creadas de antemano las bases de datos correspondientes a cada módulo.
-2. **Configuración:** Verifica las credenciales de acceso locales dentro de la configuración de cada microservicio.
-3. **Orden de Arranque Recomendado (vía Postman/IDE):**
-   * Levantar primero el servicio núcleo: `codigoms_catalogo` (Puerto 8082).
-   * Levantar el resto de módulos de forma paralela conforme al orden de puertos y pruebas estipulado.
-   
-   
-En caso de que Visual Studio Code no detecte el main de algún microservicio ir a la carpeta raiz del microservicio y ejecutar en la terminal mvn spring-boot:run (microservicios codigoms_boleta y codigoms_usuario)
+También están disponibles:
+
+- `GET /api/productos/{id}`
+- `POST /api/productos`
+- `PUT /api/productos/{id}`
+- `DELETE /api/productos/{id}`
+
+La respuesta utiliza los nombres que necesita el frontend: `id`, `nombre`, `descripcion`, `precio`, `imagen`, `animal`, `categoria`, `stock` y `disponible`.
+
+El catálogo permite CORS para que el frontend estático pueda consumir el API desde otro origen. Se incluyen datos iniciales basados en los productos que actualmente presenta `fullstack2_petshop`.
+
+## Base de datos
+
+Crear `catalogo_db` en MySQL/XAMPP y configurar las credenciales en `codigoms_catalogo/src/main/resources/application.properties`.
+
+Luego ejecutar el microservicio de catálogo con Maven/Spring Boot.
